@@ -1,0 +1,25 @@
+name: guardiao_das_terras
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.8.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # Para selecionar arquivos (fotos/vídeos)
+  file_picker: ^8.0.0+1
+  # Para obter a localização GPS
+  geolocator: ^13.0.1
+  # Para ícones bonitos
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
