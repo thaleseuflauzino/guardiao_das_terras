@@ -16,15 +16,21 @@ O objetivo principal é oferecer uma ferramenta que fortaleça a autonomia e a s
 * **Geolocalização Automática:** Captura das coordenadas GPS para identificar com precisão o local da ocorrência.
 * **Fluxo Intuitivo:** Navegação clara desde o início da denúncia até a confirmação de envio.
 
-## 📱 Telas do Aplicativo
+## 📱 Telas do Aplicativo (Tema claro)
 
-| Tela Inicial | Formulário (Vazio) |
+| Tela Inicial | Formulário |
 | :---: | :---: |
-| ![Tela Inicial do Aplicativo](./assets/home.jpg) | ![Tela do Formulário](./assets/1o.jpg) |
-| **Seleção de Denúncia** | **Denúncia Preenchida** |
-| ![Opções do Formulário](./assets/2o.jpg) | ![Formulário preenchido](./assets/3o.jpg) |
+| ![Tela Inicial do Aplicativo](./assets/readme/home-light.jpg) | ![Tela do Formulário](./assets/readme/formulario-light.jpg) |
 | **Confirmação de Envio** |
-| ![Tela de Sucesso](./assets/final.jpg) |
+| ![Tela de Sucesso](./assets/readme/final-light.jpg) |
+
+## 📱 Telas do Aplicativo (Tema escuro)
+
+| Tela Inicial | Formulário |
+| :---: | :---: |
+| ![Tela Inicial do Aplicativo](./assets/readme/home-dark.jpg) | ![Tela do Formulário](./assets/readme/formulario-dark.jpg) |
+| **Confirmação de Envio** |
+| ![Tela de Sucesso](./assets/readme/final-dark.jpg) |
 
 ## 🛠️ Tecnologias Utilizadas
 
