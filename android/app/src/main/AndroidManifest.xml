@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     
     <application
-        android:label="guardiao_das_terras"
+        android:label="Guardião das Terras"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
