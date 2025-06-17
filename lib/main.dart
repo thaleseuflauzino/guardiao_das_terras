@@ -16,6 +16,13 @@ class GuardiaoDeTerrasApp extends StatefulWidget {
 class _GuardiaoDeTerrasAppState extends State<GuardiaoDeTerrasApp> {
   bool _isDarkMode = false;
 
+  @override
+  void initState() {
+    super.initState();
+    // Inicializa com o tema do sistema
+    _isDarkMode = WidgetsBinding.instance.window.platformBrightness == Brightness.dark;
+  }
+
   void toggleTheme() {
     setState(() {
       _isDarkMode = !_isDarkMode;
@@ -52,7 +59,12 @@ class _GuardiaoDeTerrasAppState extends State<GuardiaoDeTerrasApp> {
         ),
       ),
       themeMode: _isDarkMode ? ThemeMode.dark : ThemeMode.light,
-      home: HomePage(toggleTheme: toggleTheme, isDarkMode: _isDarkMode),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => HomePage(toggleTheme: toggleTheme, isDarkMode: _isDarkMode),
+        '/report': (context) => ReportFormPage(toggleTheme: toggleTheme, isDarkMode: _isDarkMode),
+        '/success': (context) => SuccessPage(toggleTheme: toggleTheme, isDarkMode: _isDarkMode),
+      },
     );
   }
 }
@@ -103,13 +115,7 @@ class HomePage extends StatelessWidget {
                     height: 200,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => ReportFormPage(
-                            toggleTheme: toggleTheme,
-                            isDarkMode: isDarkMode,
-                          )),
-                        );
+                        Navigator.pushNamed(context, '/report');
                       },
                       style: ElevatedButton.styleFrom(
                         shape: const CircleBorder(),
@@ -267,20 +273,14 @@ class _ReportFormPageState extends State<ReportFormPage> {
   
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
-       // Em um app real, aqui você enviaria os dados para um servidor.
+      // Em um app real, aqui você enviaria os dados para um servidor.
       print('Formulário enviado!');
       print('Tipo: $_selectedReportType');
       print('Arquivos: ${_pickedFiles.length}');
       print('Localização: ${_currentPosition?.latitude}, ${_currentPosition?.longitude}');
 
       // Navega para a tela de sucesso
-       Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => SuccessPage(
-            toggleTheme: widget.toggleTheme,
-            isDarkMode: widget.isDarkMode,
-          )),
-       );
+      Navigator.pushReplacementNamed(context, '/success');
     }
   }
 
@@ -492,52 +492,56 @@ class SuccessPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.check_circle_outline, color: Colors.green.shade600, size: 100),
-              const SizedBox(height: 24),
-              Text(
-                'Denúncia Enviada!',
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: isDarkMode ? Colors.white : Colors.black,
+    return WillPopScope(
+      onWillPop: () async {
+        // Impede o botão voltar de funcionar
+        return false;
+      },
+      child: Scaffold(
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.check_circle_outline, color: Colors.green.shade600, size: 100),
+                const SizedBox(height: 24),
+                Text(
+                  'Denúncia Enviada!',
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: isDarkMode ? Colors.white : Colors.black,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'As autoridades competentes foram notificadas. Agradecemos sua colaboração.',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: isDarkMode ? Colors.white70 : Colors.black54,
+                const SizedBox(height: 16),
+                Text(
+                  'As autoridades competentes foram notificadas. Agradecemos sua colaboração.',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: isDarkMode ? Colors.white70 : Colors.black54,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 40),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => HomePage(
-                      toggleTheme: toggleTheme,
-                      isDarkMode: isDarkMode,
-                    )),
-                    (Route<dynamic> route) => false,
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green.shade700,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                const SizedBox(height: 40),
+                ElevatedButton(
+                  onPressed: () {
+                    // Navega para a HomePage e limpa a pilha de navegação
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      '/',
+                      (Route<dynamic> route) => false,
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green.shade700,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                  ),
+                  child: const Text('Voltar ao Início'),
                 ),
-                child: const Text('Voltar ao Início'),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
